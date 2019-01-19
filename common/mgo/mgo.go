@@ -1,14 +1,13 @@
 package mgo
 
 import (
-	"log"
-	"save-api/config"
 	"time"
 
 	"github.com/globalsign/mgo"
+	"github.com/ofonimefrancis/spaceship/common/log"
 )
 
-func New(host, name string, config *config.Config) *Database {
+func New(host, name string) *Database {
 	dbSession, err := DialWithInfo(host, "", "")
 	if err != nil {
 		log.Panicf("Mongo init, err=%v", err)

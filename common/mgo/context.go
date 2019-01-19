@@ -2,9 +2,10 @@ package mgo
 
 import (
 	"context"
-	"log"
 	"runtime/debug"
 	"time"
+
+	"github.com/ofonimefrancis/spaceship/common/log"
 
 	"github.com/globalsign/mgo/bson"
 )
@@ -43,7 +44,7 @@ func (d *Database) FromContext(c context.Context) *Database {
 				session.Session.Close()
 				return
 			case <-ticker.C:
-				log.Printf("mongo session %s is opened for %s: %s", sessionID, sessionTimeout*time.Duration(count), string(trace))
+				log.Infof("mongo session %s is opened for %s: %s", sessionID, sessionTimeout*time.Duration(count), string(trace))
 				count++
 			}
 		}
