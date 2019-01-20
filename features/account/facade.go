@@ -1,6 +1,10 @@
 package account
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/gin-gonic/gin"
+)
 
 const (
 	BasePath            = "account"
@@ -9,6 +13,7 @@ const (
 	DeleteAccountPath   = "delete-account"
 	UpdateAccountPath   = "update-account"
 	ActivateAccountPath = "activate-account"
+	TestRoute           = "test"
 )
 
 func BuildPath(path string) string {
@@ -35,4 +40,20 @@ func Paths() interface{} {
 
 func GetAccountMePath() string {
 	return BuildPath(MePath)
+}
+
+type HTMLFacade struct {
+	handler *Handler
+}
+
+func NewHTMLFacade(handler *Handler) *HTMLFacade {
+	return &HTMLFacade{handler}
+}
+
+func (facade *HTMLFacade) RegisterRoutes(r *gin.RouterGroup) {
+
+	r.GET(TestRoute, func(c *gin.Context) {
+		fmt.Println("Test Routes....")
+		c.JSON(200, gin.H{"hello": "Everything works well"})
+	})
 }

@@ -3,7 +3,7 @@ package account
 import (
 	"context"
 
-	"github.com/ofonimefrancis/shh-pay/common"
+	"github.com/ofonimefrancis/spaceship/common"
 	"github.com/ofonimefrancis/spaceship/common/mgo"
 )
 
