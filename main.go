@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"shh-pay/common"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mkideal/cli"
@@ -20,12 +21,10 @@ func main() {
 
 		r := gin.Default()
 
-		// r.Use(common.EnsureHTTPVersion())
-		// r.Use(common.HeaderCheck())
-		// r.Use(common.SecureHeaders())
-		// r.Use(common.CacheHeaders(static.BasePath))
-
-		// r.Use(common.SilenceSomePanics())
+		r.Use(common.EnsureHTTPVersion())
+		r.Use(common.HeaderCheck())
+		r.Use(common.SecureHeaders())
+		r.Use(common.SilenceSomePanics())
 
 		database := mgo.New(argv.DBHost, argv.DBName)
 		r.Use(mgo.DBConnectionMiddleware(database))

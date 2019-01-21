@@ -1,0 +1,18 @@
+spaceship.com {
+  # location of static files on your server
+  root /location_here
+  log /path/to/spaceship.com/log/access.log
+
+
+  # enable gzip
+  gzip
+
+  # use tls, create or renew cert if necessary
+  tls example@example.com
+
+  # for / serve from the port at which the backend serves the website
+  proxy / :9999 {
+     # except some things for caddy to serve directly
+     except /assets /files /robots.txt /favicon.ico
+  }
+}
