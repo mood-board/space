@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"shh-pay/common"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mkideal/cli"
+	"github.com/ofonimefrancis/spaceship/common"
 	"github.com/ofonimefrancis/spaceship/common/config"
 	"github.com/ofonimefrancis/spaceship/common/log"
 	"github.com/ofonimefrancis/spaceship/common/mgo"
@@ -22,7 +22,6 @@ func main() {
 		r := gin.Default()
 
 		r.Use(common.EnsureHTTPVersion())
-		r.Use(common.HeaderCheck())
 		r.Use(common.SecureHeaders())
 		r.Use(common.SilenceSomePanics())
 
