@@ -1,0 +1,35 @@
+{
+    "Enable": [
+        "gofmt", 
+        "goimports",
+        "golint",
+        "deadcode",
+        "ineffassign",
+        "gosimple",
+        "vetshadow",
+        "varcheck",
+        "structcheck",
+        "errcheck",
+        "unconvert",
+        "goconst",
+        "misspell",
+        "nakedret"
+    ],
+    "Disable": [
+        "dupl",
+        "vet",
+        "interfacer",
+        "gocyclo",
+        "gas"
+    ],
+    "Vendor": true,
+    "Deadline": "10m",
+    "EnableGC": true,
+    "Exclude": [
+        "should have comment",
+        "don't use generic names such as",
+        "should be of the form",
+        "/usr/local/go/src/",
+        "should not use basic type string as key in context.WithValue"
+    ]
+}
