@@ -51,9 +51,9 @@ func NewHTMLFacade(handler *Handler) *HTMLFacade {
 }
 
 func (facade *HTMLFacade) RegisterRoutes(r *gin.RouterGroup) {
-
 	r.GET(TestRoute, func(c *gin.Context) {
 		fmt.Println("Test Routes....")
 		c.JSON(200, gin.H{"hello": "Everything works well"})
 	})
+
 }

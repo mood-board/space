@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ofonimefrancis/spaceship/common"
+	"github.com/ofonimefrancis/spaceship/common/log"
 	"github.com/ofonimefrancis/spaceship/common/mgo"
 )
 
@@ -27,6 +28,16 @@ func NewHandler(initContext context.Context, database *mgo.Database) *Handler {
 		return handler
 	}
 
+	if err := createTestUser(context.Background(), handler, datastore); err != nil {
+		log.Warningf("Unable to create test user: %+v\n", err)
+	}
 	//TODO: Create a test User
 	return handler
+}
+
+func createTestUser(c context.Context, handler *Handler, datastore *Datastore) error {
+	log.Infof("Creating test user account, username=test@spaceship.com, password=phoenix@*01")
+
+	//handler.SetupUser()
+	return nil
 }
