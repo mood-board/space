@@ -1,6 +1,12 @@
 package common
 
-import "fmt"
+import (
+	"fmt"
+)
+
+type ErrorResponse struct {
+	Message string `json:"message"`
+}
 
 type UserError struct {
 	err string

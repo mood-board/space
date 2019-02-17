@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/globalsign/mgo/bson"
+	"github.com/ofonimefrancis/spaceship/common/log"
 	"github.com/ofonimefrancis/spaceship/common/mgo"
 	"github.com/pkg/errors"
 )
@@ -12,15 +13,16 @@ import (
 type User struct {
 	ID               bson.ObjectId `json:"_id,omitempty"`
 	Name             string        `json:"name"`
-	PasswordHash     PasswordHash  `json:"password"`
+	Password         string        `json:"password,omitempty"`
+	PasswordHash     PasswordHash  `json:"password_hash"`
 	Email            string        `json:"email"`
 	PhoneNumber      string        `json:"phone_number"`
 	AvatarURL        string        `json:"avatar_url"`
 	IsActive         bool          `json:"is_active"`
 	IsVerified       bool          `json:"is_verified"`
-	Token            string        `json:"token"`
+	Token            string        `json:"token,omitempty"`
 	TokenExpiryTime  time.Time     `json:"token_expiry_time"`
-	VerificationCode string        `json:"verification_code"`
+	VerificationCode string        `json:"verification_code,omitempty"`
 	CreatedAt        time.Time     `json:"created_at"`
 	UpdatedAt        time.Time     `json:"updated_at"`
 }
@@ -105,6 +107,38 @@ func (datastore *DatastoreSession) FindUserByEmail(email string) (*User, error) 
 	return &user, nil
 }
 
+//AccountExists Checks if an account with specified email exists
+func (datastore *DatastoreSession) AccountExists(email string) bool {
+	var user User
+	err := datastore.users().Find(bson.M{"email": email}).One(&user)
+	return err == nil
+}
+
 func (datastore *DatastoreSession) RemoveUserByID(id bson.ObjectId) error {
 	return datastore.users().Remove(bson.M{"_id": id})
+}
+
+func (datastore *DatastoreSession) IsVerifiedAccount(email string) bool {
+	var user User
+	err := datastore.users().Find(bson.M{"email": email, "is_verified": true}).One(&user)
+	if err != nil {
+		log.Info("[isVerifiedAccount Error] No user found with that email")
+		return false
+	}
+	return true
+}
+
+//IsValidLoginCredentials Validates if the user's email and password matches a record
+func (datastore *DatastoreSession) IsValidLoginCredentials(email, password string) bool {
+	var user User
+	passwordHash, err := NewPasswordHash(password)
+	if err != nil {
+		log.Info("Error hashing password...")
+		return false
+	}
+	if err := datastore.users().Find(bson.M{"email": email, "password": *passwordHash}).One(&user); err != nil {
+		log.Info("Error finding user with the specified email and password.")
+		return false
+	}
+	return true
 }
