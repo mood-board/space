@@ -2,6 +2,7 @@ package account
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"github.com/globalsign/mgo/bson"
@@ -107,4 +108,19 @@ func (datastore *DatastoreSession) FindUserByEmail(email string) (*User, error) 
 
 func (datastore *DatastoreSession) RemoveUserByID(id bson.ObjectId) error {
 	return datastore.users().Remove(bson.M{"_id": id})
+}
+
+//IsValidLoginCredentials Validates if the user's email and password matches a record
+func (datastore *DatastoreSession) IsValidLoginCredentials(email, password string) bool {
+	var user User
+	passwordHash, err := NewPasswordHash(password)
+	if err != nil {
+		log.Println("Error hashing password...")
+		return false
+	}
+	if err := datastore.users().Find(bson.M{"email": email, "password": *passwordHash}).One(&user); err != nil {
+		log.Println("Error finding user with the specified email and password.")
+		return false
+	}
+	return true
 }

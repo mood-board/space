@@ -9,6 +9,7 @@ import (
 const (
 	BasePath            = "account"
 	LoginPath           = "login"
+	RegisterPath        = "signup"
 	MePath              = "me"
 	DeleteAccountPath   = "delete-account"
 	UpdateAccountPath   = "update-account"
@@ -42,18 +43,26 @@ func GetAccountMePath() string {
 	return BuildPath(MePath)
 }
 
-type HTMLFacade struct {
-	handler *Handler
+type facade struct {
+	accountHandler *Handler
 }
 
-func NewHTMLFacade(handler *Handler) *HTMLFacade {
-	return &HTMLFacade{handler}
+func NewHTMLFacade(handler *Handler) *facade {
+	return &facade{handler}
 }
 
-func (facade *HTMLFacade) RegisterRoutes(r *gin.RouterGroup) {
+func (facade *facade) RegisterRoutes(r *gin.RouterGroup) {
 	r.GET(TestRoute, func(c *gin.Context) {
 		fmt.Println("Test Routes....")
 		c.JSON(200, gin.H{"hello": "Everything works well"})
+	})
+
+	r.POST(LoginPath, func(c *gin.Context) {
+
+	})
+
+	r.POST(RegisterPath, func(c *gin.Context) {
+
 	})
 
 }

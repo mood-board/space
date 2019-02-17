@@ -37,7 +37,18 @@ func NewHandler(initContext context.Context, database *mgo.Database) *Handler {
 
 func createTestUser(c context.Context, handler *Handler, datastore *Datastore) error {
 	log.Infof("Creating test user account, username=test@spaceship.com, password=phoenix@*01")
-
 	//handler.SetupUser()
 	return nil
 }
+
+// func (handler Handler) HandleLogin(c context.Context, email, password string) {
+// 	//Check If the user's email and password exists
+// 	ds := handler.datastore.OpenSession(c)
+
+// 	if !ds.IsValidLoginCredentials(email, password) {
+// 		//Invalid  Login Credentials
+// 		log.Infof("[LOGIN] Invalid email and password")
+// 		return nil, e
+// 	}
+
+// }
